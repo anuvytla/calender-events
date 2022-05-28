@@ -1,0 +1,23 @@
+*{
+    width: 100%;
+}
+
+header {
+    text-align: center;
+}
+
+.col-1 {
+    font-weight: bold;
+    text-align: right;
+}
+
+img {
+    height: 58px;
+    object-fit: contain;
+}
+
+textarea {
+    resize: none;
+    height: 100%;
+    border: none;
+}

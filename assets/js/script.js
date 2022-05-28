@@ -11,11 +11,11 @@ const LS = JSON.parse(localStorage.scheduler || '{}');
 function showTime() {
     for (var i = calendarStartHour; i < calendarEndHour; i++) {
         let time = moment(i,'HH').format('hh a');
-        let timeRow = $('<tr>').addClass('input-time');
+        let timeRow = $('<tr>').addClass('row');
         timeRow.appendTo(timeSlotsEl);
-        let colTime =$('<td>').addClass('col-events');
-        let colText = $('<td>').addClass('enter-text');
-        let colSave = $('<td>').addClass('save');
+        let colTime =$('<td>').addClass('col-1');
+        let colText = $('<td>').addClass('col-10');
+        let colSave = $('<td>').addClass('col-1');
         colTime.appendTo(timeRow);
         colText.appendTo(timeRow);
         colSave.appendTo(timeRow);
