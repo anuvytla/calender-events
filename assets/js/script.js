@@ -1,7 +1,7 @@
 // Table element for showing calendar events.
 var timeSlotsEl = $('#time-slots');
 // Starting hour for the calendat events.
-const calendarStartHour = 09;
+const calendarStartHour = 9;
 // Final hour for the calendat events.
 const calendarEndHour = 18;
 
@@ -16,10 +16,11 @@ const eventDict = JSON.parse(localStorage.scheduler || '{}');
 function displayCalender() {
     // Loop through start to end hour
     for (var hour = calendarStartHour; hour < calendarEndHour; hour++) {
-        // Convert the hour  from 24hr format to 12hr format
+        // Convert the hour  from 24hr format to 12hr format.
         let time = moment(hour,'HH').format('hh a');
         // Create a tablerow for the hour
         let timeRow = $('<tr>').addClass('row');
+        timeRow.attr('time-hour', hour);
         timeRow.appendTo(timeSlotsEl);
         // Add a column to display the hour.
         let colTime =$('<td>').addClass('col-1');
@@ -32,10 +33,43 @@ function displayCalender() {
         // Add a column to display save button.
         let colSave = $('<td>').addClass('col-1');
         colSave.appendTo(timeRow);
-        colSave.prepend('<img src="./assets/images/save_icon.png" />')  
+        colSave.prepend('<img src="./assets/images/save_icon.png" />'); 
+
     }
 }
 
 // Display the calendar on loading the page.
 displayCalender();
+
+// Define background colors for present, past and future events.
+let presentColor = "#EAD3CB";
+let pastColor = "#BDC7C9";
+let futureColor = "#845460";
+
+// Update event row background color based on curren time.
+function updateEventColors() {
+    // moment for current time.
+    var currentTime = moment();
+    // Loop through each row in a table
+    timeSlotsEl.children("tr").each(function() {
+        // Get the hour for this row.
+        var eventHourString = $(this).attr('time-hour');
+        // Create start and end times for this event row.
+        var eventHourStart = moment(eventHourString, "H");
+        var eventHourEnd = moment(eventHourString, "H").add(3599, 's');
+        
+        if(eventHourEnd.isBefore(currentTime)) {
+            // Event ended. End time is in the past.
+            $(this).css('backgroundColor', pastColor);
+        } else if(eventHourStart.isAfter(currentTime)) {
+            // Event has not started. Start time is in the past.
+            $(this).css('backgroundColor', futureColor);
+        } else {
+            // Event is neither in past, nor in future. It must be present.
+            $(this).css('backgroundColor', presentColor);
+        }
+    });
+}
+
+updateEventColors();
 
