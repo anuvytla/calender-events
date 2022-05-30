@@ -6,13 +6,19 @@ header {
     text-align: center;
 }
 
+.row {
+    height:120px;
+}
+
 .col-1 {
+    font-size: x-large;
     font-weight: bold;
     text-align: right;
+    margin-top: 10px;
 }
 
 img {
-    height: 58px;
+    height: 78px;
     object-fit: contain;
 }
 
