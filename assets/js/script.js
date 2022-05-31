@@ -29,11 +29,13 @@ function displayCalender() {
         // Add a colum to display/edit the event for the hour.
         let colText = $('<td>').addClass('col-10');
         colText.appendTo(timeRow);
-        $('<textarea>').appendTo(colText);
+        let textAreaEl = $('<textarea>');
+        textAreaEl.val(eventDict[hour]);
+        textAreaEl.appendTo(colText);
         // Add a column to display save button.
         let colSave = $('<td>').addClass('col-1');
         colSave.appendTo(timeRow);
-        colSave.prepend('<img src="./assets/images/save_icon.png" />'); 
+        colSave.prepend('<img src="./assets/images/save_icon.png"/>'); 
 
     }
 }
@@ -73,3 +75,21 @@ function updateEventColors() {
 
 updateEventColors();
 
+// Add click event listener for the save icons(<img/>) in the table. 
+timeSlotsEl.on('click', 'img', saveCalendarEvent);
+
+// Saves the event information for the row where click happened.
+function saveCalendarEvent(click) {
+    // Retreive the target parent element (tr) of a event.
+    var eventRowEl = $(click.target).parents('tr');
+    // Get the hour for the event, stored as a html attribute
+    var eventHour = eventRowEl.attr('time-hour');
+    // find textarea in a row.
+    var textAreaEl = eventRowEl.find('textarea');
+    // get the event title from textarea.
+    var eventText = textAreaEl.val();
+    // Update the eventDict.
+    eventDict[eventHour] = eventText;
+    // Write eventDict to the localStorage.
+    localStorage.setItem('scheduler', JSON.stringify(eventDict));
+}
